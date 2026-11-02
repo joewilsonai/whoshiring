@@ -4,191 +4,230 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Who's Hiring, 15 Years</title>
-<meta name="description" content="Every Hacker News 'Who is hiring?' thread since 2011, sifted into one page: the companies that keep hiring, what they pay, how remote moved, which roles rose and fell.">
+<meta name="description" content="Every Hacker News 'Who is hiring?' thread since 2011, sifted into one page: the companies that keep hiring, what they pay, how remote moved, which roles rose and fell, and this month's posts read for a mid-career job seeker.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Special+Elite&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#111;--paper:#faf8f2;--dim:#5a5750;--rule:#d9d4c7;--panel:#fff;--stamp:#c4302b;--ok:#2d7a3e;--mono:ui-monospace,SFMono-Regular,Menlo,monospace;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
-@media (prefers-color-scheme:dark){:root{--ink:#eee9dc;--paper:#14130f;--dim:#a39e92;--rule:#33302a;--panel:#1d1b16}}
+:root{--ink:#17150f;--paper:#f4efe3;--panel:#fbf8f0;--dim:#6b665a;--rule:#d8d1bf;--stamp:#c4302b;--ok:#2d7a3e;--blue:#2b5fc4;--mono:ui-monospace,SFMono-Regular,Menlo,monospace;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;--head:"Archivo Black",Impact,sans-serif;--type:"Special Elite","Courier New",monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ink:#efe9d8;--paper:#121110;--panel:#1b1916;--dim:#a39d8c;--rule:#35322b;--ok:#5fbf74;--blue:#7ea2f0}}
+:root[data-theme="dark"]{--ink:#efe9d8;--paper:#121110;--panel:#1b1916;--dim:#a39d8c;--rule:#35322b;--ok:#5fbf74;--blue:#7ea2f0}
 *{box-sizing:border-box}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.45}
-main{max-width:1100px;margin:0 auto;padding:28px 16px 80px}
-header h1{font-size:40px;margin:0 0 4px;letter-spacing:-.02em}
-header .lead{font-size:18px;color:var(--dim);margin:0 0 6px;max-width:760px}
-header .meta{font-family:var(--mono);font-size:12px;color:var(--dim)}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:22px 0}
-.card{background:var(--panel);border:1px solid var(--rule);padding:12px 14px}
-.card .k{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
-.card .v{display:block;font-size:28px;font-weight:700;margin:2px 0}
-.card .m{font-size:12px;color:var(--dim)}
-section{margin-top:34px}
-h2{font-size:24px;margin:0 0 6px;letter-spacing:-.01em}
-.sub{color:var(--dim);margin:0 0 12px;font-size:14px}
-.chart{background:var(--panel);border:1px solid var(--rule);padding:10px}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+nav{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1px solid var(--rule)}
+nav .in{max-width:1120px;margin:0 auto;padding:10px 16px;display:flex;gap:6px 18px;align-items:center;flex-wrap:wrap}
+nav .brand{font-family:var(--head);font-size:15px;letter-spacing:.01em;margin-right:auto;text-decoration:none}
+nav .brand b{color:var(--stamp)}
+nav a.l{font-family:var(--type);font-size:12px;text-decoration:none;color:var(--dim);letter-spacing:.04em}
+nav a.l:hover{color:var(--stamp)}
+main{max-width:1120px;margin:0 auto;padding:36px 16px 80px}
+header h1{font-family:var(--head);font-size:clamp(34px,6vw,64px);line-height:1;margin:0 0 14px;letter-spacing:-.01em}
+header h1 span{color:var(--stamp)}
+header .lead{font-size:19px;color:var(--ink);margin:0 0 12px;max-width:780px}
+header .meta{font-family:var(--type);font-size:13px;display:inline-block;border:1.5px solid var(--stamp);color:var(--stamp);padding:3px 9px;transform:rotate(-1deg);letter-spacing:.03em}
+.grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin:28px 0 8px}
+@media (max-width:900px){.grid{grid-template-columns:repeat(3,1fr)!important}}
+@media (max-width:520px){.grid{grid-template-columns:repeat(2,1fr)!important}}
+.card{background:var(--panel);border:1px solid var(--rule);border-top:3px solid var(--stamp);padding:12px 14px 10px;min-width:0}
+.card .k{display:block;font-family:var(--type);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}
+.card .v{display:block;font-family:var(--head);font-size:30px;line-height:1.1;margin:4px 0 2px;overflow-wrap:anywhere}
+.card .m{font-size:12px;color:var(--dim);line-height:1.35}
+section{margin-top:48px;scroll-margin-top:60px}
+h2{font-family:var(--head);font-size:26px;margin:0 0 6px;letter-spacing:-.005em;display:flex;align-items:baseline;gap:12px}
+h2 .n{font-family:var(--type);font-size:13px;color:var(--stamp);letter-spacing:.08em}
+.sub{color:var(--dim);margin:0 0 14px;font-size:15px;max-width:820px}
+.chart{background:var(--panel);border:1px solid var(--rule);padding:12px}
 svg{width:100%;height:auto;display:block}
 .axis{font-family:var(--mono);font-size:10px;fill:var(--dim)}
 table{width:100%;border-collapse:collapse;font-size:14px}
-th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--rule);vertical-align:top}
-th{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);cursor:pointer;user-select:none}
-td.n{text-align:right;font-family:var(--mono)}
-a{color:inherit}
-.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:8px 0 12px}
-input,select,button{font:inherit;font-size:14px;padding:8px 10px;border:1px solid var(--rule);background:var(--panel);color:var(--ink);border-radius:4px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--rule);vertical-align:top}
+thead th{position:sticky;top:0;background:var(--panel);font-family:var(--type);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);cursor:pointer;user-select:none;white-space:nowrap;z-index:1}
+thead th[data-k]:hover{color:var(--stamp)}
+tbody tr:nth-child(even){background:color-mix(in srgb,var(--rule) 25%,transparent)}
+td.n{text-align:right;font-family:var(--mono);white-space:nowrap}
+td.clip{max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--dim)}
+td.co{white-space:nowrap}
+.yrs{display:inline-block;height:6px;background:var(--stamp);vertical-align:middle;margin-left:6px;opacity:.7}
+.tablewrap{background:var(--panel);border:1px solid var(--rule);overflow:auto;max-height:70vh}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0 12px}
+input,select,button{font:inherit;font-size:14px;padding:9px 11px;border:1px solid var(--rule);background:var(--panel);color:var(--ink);border-radius:3px}
 input[type=search]{flex:1;min-width:220px}
-button{cursor:pointer}
-.pill{display:inline-block;font-family:var(--mono);font-size:11px;padding:1px 7px;border:1px solid var(--rule);border-radius:999px;color:var(--dim);margin-left:6px}
+input:focus,select:focus{outline:2px solid var(--stamp);outline-offset:1px}
+.chip{font-size:13px;display:inline-flex;align-items:center;gap:6px;padding:7px 11px;border:1px solid var(--rule);border-radius:999px;background:var(--panel);cursor:pointer;user-select:none;color:var(--dim)}
+.chip input{appearance:none;width:10px;height:10px;border-radius:50%;border:1.5px solid var(--dim);margin:0;padding:0;background:transparent}
+.chip:has(input:checked){border-color:var(--stamp);color:var(--ink)}
+.chip:has(input:checked) input{background:var(--stamp);border-color:var(--stamp)}
+.pill{display:inline-block;font-family:var(--mono);font-size:11px;padding:1px 7px;border:1px solid var(--rule);border-radius:999px;color:var(--dim);margin-left:6px;vertical-align:middle;white-space:nowrap}
 .pill.remote{color:var(--ok);border-color:var(--ok)}
 .pill.good{color:var(--ok);border-color:var(--ok);font-weight:600}
 .pill.bad{color:var(--stamp);border-color:var(--stamp)}
-.post.noise{opacity:.6}
-.post .note{font-size:14px;margin:3px 0 2px;font-style:italic}
-#judge-row label{font-size:14px;display:inline-flex;align-items:center;gap:5px;padding:6px 10px;border:1px solid var(--rule);border-radius:4px;background:var(--panel);cursor:pointer}
-.post{border-left:3px solid var(--rule);padding:6px 10px;margin:6px 0;background:var(--panel)}
-.post .h{font-weight:600}
-.post .m{font-family:var(--mono);font-size:12px;color:var(--dim)}
+.post{border:1px solid var(--rule);border-left:4px solid var(--rule);padding:10px 14px;margin:8px 0;background:var(--panel)}
+.post.good{border-left-color:var(--ok)}
+.post.noise{opacity:.55;border-left-color:var(--stamp)}
+.post .h{font-weight:700;font-size:16px}
+.post .h a{text-decoration:none}
+.post .h a:hover{text-decoration:underline;color:var(--stamp)}
+.post .r{font-size:14px;margin-top:2px}
+.post .note{font-size:14px;margin:6px 0 4px;font-family:var(--type);color:var(--ink)}
+.post .m{font-family:var(--mono);font-size:11.5px;color:var(--dim);margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .muted{color:var(--dim)}
-.legend{display:flex;flex-wrap:wrap;gap:10px;font-size:12px;margin-top:6px}
-.legend span i{display:inline-block;width:10px;height:10px;margin-right:4px;vertical-align:middle}
-footer{margin-top:50px;font-size:13px;color:var(--dim);border-top:1px solid var(--rule);padding-top:14px}
-@media (max-width:600px){header h1{font-size:30px}.card .v{font-size:22px}th,td{padding:6px 5px;font-size:13px}}
+.legend{display:flex;flex-wrap:wrap;gap:10px 14px;font-size:12px;margin-top:8px}
+.legend span i{display:inline-block;width:10px;height:10px;margin-right:5px;vertical-align:middle;border-radius:2px}
+footer{margin-top:60px;font-size:14px;color:var(--dim);border-top:1px solid var(--rule);padding-top:16px}
+footer .bet{font-family:var(--type);color:var(--stamp);font-size:13px;letter-spacing:.04em}
+@media (max-width:600px){th,td{padding:7px 6px;font-size:13px}td.clip{max-width:150px}header .lead{font-size:17px}}
 </style>
 </head>
 <body>
-<main>
+<nav><div class="in">
+  <a class="brand" href="#top">WHO'S HIRING, <b>15 YEARS</b></a>
+  <a class="l" href="#s-months">Months</a><a class="l" href="#s-remote">Remote</a><a class="l" href="#s-pay">Pay</a><a class="l" href="#s-roles">Roles</a><a class="l" href="#s-durable">Companies</a><a class="l" href="#s-latest">This month</a><a class="l" href="#s-search">Search</a><a class="l" href="#s-places">Places</a>
+</div></nav>
+<main id="top">
 <header>
-  <h1>Who's Hiring, 15 Years</h1>
-  <p class="lead">Every monthly <a href="https://news.ycombinator.com/submitted?id=whoishiring">“Ask HN: Who is hiring?”</a> thread since 2011, sifted into one page. No feed, no login, no recommendations. The companies that keep hiring, what they say they pay, how remote moved, which roles rose and which fell.</p>
+  <h1>Who's Hiring,<br><span>Fifteen Years.</span></h1>
+  <p class="lead">Every monthly <a href="https://news.ycombinator.com/submitted?id=whoishiring">“Ask HN: Who is hiring?”</a> thread since 2011, sifted into one page. No feed, no login, no recommendations. The companies that keep hiring, what they say they pay, how remote moved, which roles rose and which fell, and this month's posts read for one reader: mid-career, laid off, deciding at 2 AM what's worth an hour.</p>
   <div class="meta" id="meta">loading…</div>
 </header>
 
 <div class="grid" id="cards"></div>
 
 <section id="s-months">
-  <h2>Posts per month</h2>
-  <p class="sub">One bar per thread. The market, as the people in it saw it: who was hiring that month, how many said so.</p>
+  <h2><span class="n">01</span>Posts per month</h2>
+  <p class="sub">One bar per thread. The market as the people in it saw it: how many said they were hiring that month.</p>
   <div class="chart"><svg id="c-months" viewBox="0 0 1000 220"></svg></div>
 </section>
 
 <section id="s-remote">
-  <h2>Remote, by year</h2>
+  <h2><span class="n">02</span>Remote, by year</h2>
   <p class="sub">Share of posts that say REMOTE or hybrid, among posts that say anything about where you sit.</p>
   <div class="chart"><svg id="c-remote" viewBox="0 0 1000 220"></svg></div>
 </section>
 
 <section id="s-pay">
-  <h2>Stated pay, by year</h2>
-  <p class="sub">Median of the posted USD range midpoints, among posts that state a number. Few did before 2021; the count is under each year. Not a salary survey: it's what hirers chose to say out loud.</p>
+  <h2><span class="n">03</span>Stated pay, by year</h2>
+  <p class="sub">Median of the posted USD range midpoints, among posts that state a number. Few did before 2021. Not a salary survey: it's what hirers chose to say out loud.</p>
   <div class="chart"><svg id="c-pay" viewBox="0 0 1000 240"></svg></div>
 </section>
 
 <section id="s-roles">
-  <h2>Roles over time</h2>
-  <p class="sub">Share of posts whose first line names a role family. Watch AI / ML.</p>
+  <h2><span class="n">04</span>Roles over time</h2>
+  <p class="sub">Share of posts whose first line names a role family. Watch AI / ML rise and frontend fall.</p>
   <div class="chart"><svg id="c-roles" viewBox="0 0 1000 260"></svg><div class="legend" id="l-roles"></div></div>
 </section>
 
 <section id="s-durable">
-  <h2>The durable ones</h2>
-  <p class="sub">Companies that posted in three or more different years. Sorted by years active, then months. Click a column to sort; search to filter. Every row links to the latest post on HN.</p>
+  <h2><span class="n">05</span>The durable ones</h2>
+  <p class="sub">Companies that posted in three or more different years. Sorted by years active, then months. Click a column to sort; type to filter. Every row links to the company's latest post.</p>
   <div class="row"><input type="search" id="q-durable" placeholder="Filter companies, roles, places…"><span class="muted" id="n-durable"></span></div>
-  <div style="overflow:auto"><table id="t-durable"><thead><tr><th data-k="name">Company</th><th data-k="years" class="n">Years</th><th data-k="months" class="n">Months</th><th data-k="first">First</th><th data-k="last">Last</th><th>Roles</th><th>Where</th><th>Latest post</th></tr></thead><tbody></tbody></table></div>
+  <div class="tablewrap"><table id="t-durable"><thead><tr><th data-k="name">Company</th><th data-k="years" class="n">Years</th><th data-k="months" class="n">Months</th><th data-k="first">First</th><th data-k="last">Last</th><th>Roles</th><th>Where</th><th>Latest</th></tr></thead><tbody></tbody></table></div>
 </section>
 
 <section id="s-latest">
-  <h2 id="h-latest">This month</h2>
+  <h2><span class="n">06</span><span id="h-latest">This month</span></h2>
   <p class="sub" id="sub-latest">The newest thread, every post, in one list you can search. Links go to HN.</p>
   <div class="row" id="judge-row" hidden>
-    <label><input type="checkbox" id="f-noise" checked> hide the noise</label>
-    <label><input type="checkbox" id="f-ok"> 45+ welcome</label>
-    <label><input type="checkbox" id="f-nocode"> no coding required</label>
-    <label><input type="checkbox" id="f-pay"> pay stated</label>
-    <label><input type="checkbox" id="f-nodeg"> no degree required</label>
+    <label class="chip"><input type="checkbox" id="f-noise" checked> hide the noise</label>
+    <label class="chip"><input type="checkbox" id="f-ok"> 45+ welcome</label>
+    <label class="chip"><input type="checkbox" id="f-nocode"> no coding required</label>
+    <label class="chip"><input type="checkbox" id="f-pay"> pay stated</label>
+    <label class="chip"><input type="checkbox" id="f-nodeg"> no degree required</label>
   </div>
-  <div class="row"><input type="search" id="q-latest" placeholder="Search this month: company, role, place, remote…"><select id="f-remote"><option value="">any</option><option value="remote">remote</option><option value="hybrid">hybrid</option><option value="onsite">onsite</option></select><span class="muted" id="n-latest"></span></div>
+  <div class="row"><input type="search" id="q-latest" placeholder="Search this month: company, role, place, note…"><select id="f-remote"><option value="">anywhere</option><option value="remote">remote</option><option value="hybrid">hybrid</option><option value="onsite">onsite</option></select><span class="muted" id="n-latest"></span></div>
   <div id="latest"></div>
 </section>
 
 <section id="s-search">
-  <h2>Search all 15 years</h2>
+  <h2><span class="n">07</span>Search all fifteen years</h2>
   <p class="sub">Every post with a company name. Type a company to see every month it hired; type a city or a role to see who did.</p>
   <div class="row"><input type="search" id="q-all" placeholder="e.g. Stripe, Pittsburgh, SRE…"><span class="muted" id="n-all"></span></div>
   <div id="all"></div>
 </section>
 
 <section id="s-places">
-  <h2>Where the jobs were</h2>
+  <h2><span class="n">08</span>Where the jobs were</h2>
   <p class="sub">Top stated locations by year.</p>
-  <div style="overflow:auto"><table id="t-places"><thead><tr><th>Year</th><th>Places</th></tr></thead><tbody></tbody></table></div>
+  <div class="tablewrap" style="max-height:none"><table id="t-places"><thead><tr><th>Year</th><th>Places</th></tr></thead><tbody></tbody></table></div>
 </section>
 
 <footer>
-  <p>Built by <a href="https://aibuildersclub.ai">Joe Wilson</a> with Claude, in one sitting, as a Bet. Data: the public Hacker News API (Algolia), threads by <a href="https://news.ycombinator.com/user?id=whoishiring">whoishiring</a>. Parsing is heuristic and every record links to its source; when a number looks wrong, the post is one click away. <a href="data.json">The data as one file</a>: point your own Claude at it.</p>
+  <p class="bet">JOE WILSON BUILDS · BET №1 · CLAIM: a working 15-year hiring atlas in one sitting · VERDICT: pending</p>
+  <p>Built by <a href="https://aibuildersclub.ai">Joe Wilson</a> with Claude, in one sitting. Data: the public Hacker News API (Algolia), threads by <a href="https://news.ycombinator.com/user?id=whoishiring">whoishiring</a>. Parsing is heuristic and the labels on this month's posts are a model's read; every record links to its source, so when something looks wrong the post is one click away. <a href="data.json">The data as one file</a>: point your own Claude at it.</p>
 </footer>
 </main>
 <script>
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const fmtK=n=>n==null?'—':(n>=1000?'$'+Math.round(n/1000)+'k':'$'+n);
-function bars(svgSel,labels,values,{color='#c4302b',yfmt=v=>v,tickEvery=1,height=220,top=16}={}){
-  const svg=$(svgSel);const W=1000,H=height,L=44,R=8,B=28;
+const MONTH=m=>{const [y,mo]=m.split('-');return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+mo-1]+' '+y;};
+function bars(svgSel,labels,values,{color='#c4302b',yfmt=v=>v,tickEvery=1,height=220,top=16,tick=l=>l}={}){
+  const svg=$(svgSel);const W=1000,H=height,L=48,R=8,B=28;
   const vals=values.map(v=>v==null?0:v);const max=Math.max(1,...vals);
   const n=labels.length;const bw=(W-L-R)/n;let out='';
-  for(let i=0;i<=4;i++){const y=top+(H-top-B)*(1-i/4);const v=max*i/4;out+=`<line x1="${L}" x2="${W-R}" y1="${y}" y2="${y}" stroke="currentColor" stroke-opacity=".12"/><text class="axis" x="${L-4}" y="${y+3}" text-anchor="end">${esc(yfmt(Math.round(v)))}</text>`;}
+  for(let i=0;i<=4;i++){const y=top+(H-top-B)*(1-i/4);const v=max*i/4;out+=`<line x1="${L}" x2="${W-R}" y1="${y}" y2="${y}" stroke="currentColor" stroke-opacity=".12"/><text class="axis" x="${L-6}" y="${y+3}" text-anchor="end">${esc(yfmt(Math.round(v)))}</text>`;}
   labels.forEach((lab,i)=>{const v=vals[i];const h=(H-top-B)*(v/max);const x=L+i*bw;const y=H-B-h;
-    out+=`<rect x="${x+0.5}" y="${y}" width="${Math.max(1,bw-1)}" height="${h}" fill="${color}" opacity="${values[i]==null?0.15:0.85}"><title>${esc(lab)}: ${esc(values[i]==null?'no data':yfmt(values[i]))}</title></rect>`;
-    if(i%tickEvery===0)out+=`<text class="axis" x="${x+bw/2}" y="${H-B+14}" text-anchor="middle">${esc(lab)}</text>`;});
+    out+=`<rect x="${x+0.5}" y="${y}" width="${Math.max(1,bw-1)}" height="${h}" fill="${color}" opacity="${values[i]==null?0.15:0.85}"><title>${esc(tick(lab))}: ${esc(values[i]==null?'no data':yfmt(values[i]))}</title></rect>`;
+    if(i%tickEvery===0)out+=`<text class="axis" x="${x+bw/2}" y="${H-B+15}" text-anchor="middle">${esc(tick(lab))}</text>`;});
   svg.innerHTML=out;}
 function lines(svgSel,years,series,colors){
-  const svg=$(svgSel);const W=1000,H=260,L=44,R=8,B=28,T=12;let max=1;
+  const svg=$(svgSel);const W=1000,H=260,L=48,R=8,B=28,T=12;let max=1;
   for(const k in series)for(const v of series[k])if(v!=null&&v>max)max=v;
   const x=i=>L+(W-L-R)*(i/(years.length-1));const y=v=>T+(H-T-B)*(1-v/max);let out='';
-  for(let i=0;i<=4;i++){const yy=T+(H-T-B)*(1-i/4);out+=`<line x1="${L}" x2="${W-R}" y1="${yy}" y2="${yy}" stroke="currentColor" stroke-opacity=".12"/><text class="axis" x="${L-4}" y="${yy+3}" text-anchor="end">${Math.round(max*i/4)}%</text>`;}
-  years.forEach((yr,i)=>{out+=`<text class="axis" x="${x(i)}" y="${H-B+14}" text-anchor="middle">${esc(yr)}</text>`;});
-  let ci=0;for(const k in series){const pts=series[k].map((v,i)=>v==null?null:`${x(i)},${y(v)}`).filter(Boolean).join(' ');out+=`<polyline fill="none" stroke="${colors[ci%colors.length]}" stroke-width="2.5" points="${pts}"><title>${esc(k)}</title></polyline>`;ci++;}
+  for(let i=0;i<=4;i++){const yy=T+(H-T-B)*(1-i/4);out+=`<line x1="${L}" x2="${W-R}" y1="${yy}" y2="${yy}" stroke="currentColor" stroke-opacity=".12"/><text class="axis" x="${L-6}" y="${yy+3}" text-anchor="end">${Math.round(max*i/4)}%</text>`;}
+  years.forEach((yr,i)=>{out+=`<text class="axis" x="${x(i)}" y="${H-B+15}" text-anchor="middle">${esc(yr)}</text>`;});
+  let ci=0;for(const k in series){const pts=series[k].map((v,i)=>v==null?null:`${x(i)},${y(v)}`).filter(Boolean).join(' ');out+=`<polyline fill="none" stroke="${colors[ci%colors.length]}" stroke-width="${ci===0?3.5:2}" stroke-linejoin="round" points="${pts}"><title>${esc(k)}</title></polyline>`;ci++;}
   svg.innerHTML=out;}
 function remoteLine(svgSel,years,values){
-  const svg=$(svgSel);const W=1000,H=220,L=44,R=8,B=28,T=12;const x=i=>L+(W-L-R)*(i/(years.length-1));const y=v=>T+(H-T-B)*(1-v/100);let out='';
-  for(let i=0;i<=4;i++){const yy=T+(H-T-B)*(1-i/4);out+=`<line x1="${L}" x2="${W-R}" y1="${yy}" y2="${yy}" stroke="currentColor" stroke-opacity=".12"/><text class="axis" x="${L-4}" y="${yy+3}" text-anchor="end">${i*25}%</text>`;}
-  years.forEach((yr,i)=>{out+=`<text class="axis" x="${x(i)}" y="${H-B+14}" text-anchor="middle">${esc(yr)}</text>`;if(values[i]!=null)out+=`<circle cx="${x(i)}" cy="${y(values[i])}" r="4" fill="#2d7a3e"><title>${yr}: ${values[i]}%</title></circle>`;});
-  const pts=values.map((v,i)=>v==null?null:`${x(i)},${y(v)}`).filter(Boolean).join(' ');out+=`<polyline fill="none" stroke="#2d7a3e" stroke-width="2.5" points="${pts}"/>`;
+  const svg=$(svgSel);const W=1000,H=220,L=48,R=8,B=28,T=12;const x=i=>L+(W-L-R)*(i/(years.length-1));const y=v=>T+(H-T-B)*(1-v/100);let out='';
+  for(let i=0;i<=4;i++){const yy=T+(H-T-B)*(1-i/4);out+=`<line x1="${L}" x2="${W-R}" y1="${yy}" y2="${yy}" stroke="currentColor" stroke-opacity=".12"/><text class="axis" x="${L-6}" y="${yy+3}" text-anchor="end">${i*25}%</text>`;}
+  const pts=values.map((v,i)=>v==null?null:`${x(i)},${y(v)}`).filter(Boolean).join(' ');
+  out+=`<polygon fill="#2d7a3e" fill-opacity=".08" points="${L},${H-B} ${pts} ${x(years.length-1)},${H-B}"/><polyline fill="none" stroke="#2d7a3e" stroke-width="3" stroke-linejoin="round" points="${pts}"/>`;
+  years.forEach((yr,i)=>{out+=`<text class="axis" x="${x(i)}" y="${H-B+15}" text-anchor="middle">${esc(yr)}</text>`;if(values[i]!=null)out+=`<circle cx="${x(i)}" cy="${y(values[i])}" r="4.5" fill="#2d7a3e"><title>${yr}: ${values[i]}%</title></circle><text class="axis" x="${x(i)}" y="${y(values[i])-9}" text-anchor="middle">${values[i]}%</text>`;});
   svg.innerHTML=out;}
 const LABEL={real_role:'real role',junior_only:'junior only',needs_phd:'needs PhD',contract_or_freelance:'contract',equity_only:'equity only',vague:'vague',recruiter_or_agency:'recruiter',not_a_job:'not a job'};
 const NOISE=new Set(['vague','recruiter_or_agency','not_a_job']);
-function postHTML(p){const pay=p.pay_lo?`${p.cur||'$'}${Math.round(p.pay_lo/1000)}k${p.pay_hi?'–'+Math.round(p.pay_hi/1000)+'k':''}`:'';
+function payStr(p){return p.pay_lo?`${p.cur||'$'}${Math.round(p.pay_lo/1000)}k${p.pay_hi?'–'+Math.round(p.pay_hi/1000)+'k':''}`:'';}
+function postHTML(p){const pay=payStr(p);
   const lab=p.label?`<span class="pill ${p.label==='real_role'?'good':NOISE.has(p.label)?'bad':''}">${esc(LABEL[p.label]||p.label)}</span>`:'';
   const flags=p.label?[p.ok?'45+ ok':'',p.code===false?'no code':'',p.sen&&p.sen!=='any'?p.sen:''].filter(Boolean).map(f=>`<span class="pill">${esc(f)}</span>`).join(''):'';
-  return `<div class="post ${p.label&&NOISE.has(p.label)?'noise':''}"><div class="h"><a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.company||'(unnamed)')}</a>${lab}${p.remote?`<span class="pill ${p.remote==='remote'?'remote':''}">${esc(p.remote)}</span>`:''}${pay?`<span class="pill">${esc(pay)}</span>`:''}${flags}</div><div>${esc(p.role||'')}${p.role&&p.location?' · ':''}${esc(p.location||'')}</div>${p.note?`<div class="note">${esc(p.note)}</div>`:''}<div class="m">${esc(p.head)}</div></div>`;}
+  const cls=p.label?(NOISE.has(p.label)?'noise':p.label==='real_role'&&p.ok?'good':''):'';
+  return `<div class="post ${cls}"><div class="h"><a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.company||'(unnamed)')}</a>${lab}${p.remote?`<span class="pill ${p.remote==='remote'?'remote':''}">${esc(p.remote)}</span>`:''}${pay?`<span class="pill">${esc(pay)}</span>`:''}${flags}</div><div class="r">${esc(p.role||'')}${p.role&&p.location?' · ':''}${esc(p.location||'')}</div>${p.note?`<div class="note">${esc(p.note)}</div>`:''}<div class="m" title="${esc(p.head)}">${esc(p.head)}</div></div>`;}
 fetch('data.json',{cache:'no-cache'}).then(r=>r.json()).then(D=>{
-  $('#meta').textContent=`${D.threads} threads · ${D.posts.toLocaleString()} job posts · ${D.months[0]} to ${D.months[D.months.length-1]} · built ${D.built}`;
+  $('#meta').textContent=`${D.threads} threads · ${D.posts.toLocaleString()} job posts · ${MONTH(D.months[0])} to ${MONTH(D.months[D.months.length-1])} · built ${D.built}`;
   const lastY=D.years[D.years.length-1];const yi=D.years.length-1;
   const pm=D.per_month;const lastMonthN=pm[pm.length-1];const peak=Math.max(...pm);const peakM=D.months[pm.indexOf(peak)];
-  $('#cards').innerHTML=[
-    ['Job posts','' + D.posts.toLocaleString(),`across ${D.threads} monthly threads`],
-    ['Busiest month',peak.toLocaleString(),peakM],
-    ['Last month',lastMonthN.toLocaleString(),D.latest_month],
-    ['Remote now',(D.remote_share[yi]??'—')+'%',`of posts in ${lastY} that say where`],
+  const cards=[
+    ['Job posts',D.posts.toLocaleString(),`across ${D.threads} monthly threads`],
+    ['Busiest month',peak.toLocaleString(),MONTH(peakM)],
+    ['Last month',lastMonthN.toLocaleString(),MONTH(D.latest_month)],
+    ['Remote now',(D.remote_share[yi]??'—')+'%',`of ${lastY} posts that say where`],
     ['Stated pay',fmtK(D.pay_median[yi]),`median posted midpoint, ${lastY} (${D.pay_n[yi]} posts)`],
-    ['Durable companies',D.durable.length,'posted in 3+ different years'],
-    ...(D.judgment&&D.judgment.scored?[['Worth your hour',D.judgment.worth,`real roles open to experience, ${D.latest_month} (of ${D.judgment.scored} read)`]]:[]),
-  ].map(([k,v,m])=>`<div class="card"><span class="k">${esc(k)}</span><span class="v">${esc(v)}</span><span class="m">${esc(m)}</span></div>`).join('');
-  bars('#c-months',D.months,D.per_month,{tickEvery:12});
+    ['Durable companies',D.durable.length,'hired in 3+ different years'],
+  ];
+  if(D.judgment&&D.judgment.scored)cards.splice(3,0,['Worth your hour',D.judgment.worth,`real roles open to experience, ${MONTH(D.latest_month)}`]);
+  $('#cards').innerHTML=cards.map(([k,v,m])=>`<div class="card"><span class="k">${esc(k)}</span><span class="v">${esc(v)}</span><span class="m">${esc(m)}</span></div>`).join('');
+  if(cards.length===7)$('#cards').style.gridTemplateColumns='repeat(7,1fr)';
+  bars('#c-months',D.months,D.per_month,{tickEvery:12,tick:m=>m.slice(0,4)});
   remoteLine('#c-remote',D.years,D.remote_share);
   bars('#c-pay',D.years,D.pay_median,{color:'#2b5fc4',yfmt:fmtK,height:240});
-  const cols=['#c4302b','#2b5fc4','#2d7a3e','#b8860b','#7b3fa0','#0e8a8a','#d2691e','#555','#9c27b0','#1e88e5','#43a047','#8d6e63'];
+  const cols=['#c4302b','#2b5fc4','#2d7a3e','#b8860b','#7b3fa0','#0e8a8a','#d2691e','#777','#9c27b0','#1e88e5','#43a047','#8d6e63'];
   lines('#c-roles',D.years,D.families,cols);
   $('#l-roles').innerHTML=Object.keys(D.families).map((k,i)=>`<span><i style="background:${cols[i%cols.length]}"></i>${esc(k)}</span>`).join('');
   // Durable table
-  let sortK='years',sortDir=-1,q='';
+  let sortK='years',sortDir=-1,q='';const maxY=Math.max(...D.durable.map(c=>c.years));
   function renderDurable(){const rows=D.durable.filter(c=>!q||[c.name,...(c.roles||[]),...(c.locations||[])].join(' ').toLowerCase().includes(q));
     rows.sort((a,b)=>{const av=a[sortK],bv=b[sortK];return (av>bv?1:av<bv?-1:0)*sortDir;});
     $('#n-durable').textContent=`${rows.length} companies`;
-    $('#t-durable tbody').innerHTML=rows.slice(0,400).map(c=>`<tr><td><strong>${esc(c.name)}</strong>${c.remote==='remote'?'<span class="pill remote">remote</span>':''}</td><td class="n">${c.years}</td><td class="n">${c.months}</td><td>${esc(c.first)}</td><td>${esc(c.last)}</td><td>${esc((c.roles||[]).join(' · '))}</td><td>${esc((c.locations||[]).join(' · '))}</td><td>${c.latest?`<a href="${esc(c.latest.url)}" target="_blank" rel="noopener">${esc(c.latest.month)}</a>`:''}</td></tr>`).join('');}
+    $('#t-durable tbody').innerHTML=rows.slice(0,400).map(c=>`<tr><td class="co"><strong>${esc(c.name)}</strong>${c.remote==='remote'?'<span class="pill remote">remote</span>':''}</td><td class="n">${c.years}<span class="yrs" style="width:${Math.round(40*c.years/maxY)}px"></span></td><td class="n">${c.months}</td><td>${esc(c.first)}</td><td>${esc(c.last)}</td><td class="clip" title="${esc((c.roles||[]).join(' · '))}">${esc((c.roles||[]).join(' · '))}</td><td class="clip" title="${esc((c.locations||[]).join(' · '))}">${esc((c.locations||[]).join(' · '))}</td><td>${c.latest?`<a href="${esc(c.latest.url)}" target="_blank" rel="noopener">${esc(MONTH(c.latest.month))}</a>`:''}</td></tr>`).join('');}
   document.querySelectorAll('#t-durable th[data-k]').forEach(th=>th.addEventListener('click',()=>{const k=th.dataset.k;if(sortK===k)sortDir*=-1;else{sortK=k;sortDir=(k==='name'||k==='first'||k==='last')?1:-1;}renderDurable();}));
   $('#q-durable').addEventListener('input',e=>{q=e.target.value.trim().toLowerCase();renderDurable();});
   renderDurable();
   // Latest month
-  $('#h-latest').textContent=`This month: ${D.latest_month} (${D.latest.length} posts)`;
+  $('#h-latest').textContent=`This month: ${MONTH(D.latest_month)}`;
   const J=D.judgment||{};const judged=J.scored>0;
   if(judged){$('#judge-row').hidden=false;
-    $('#sub-latest').textContent=`Every post in the newest thread, read by Claude for one reader: mid-career, 45+, laid off, deciding at 2 AM whether a post is worth an hour. ${J.scored} of ${J.of} posts judged; ${J.worth} are real roles that welcome experience; ${J.no_code} of those need no code. The judging cost $${J.spend_usd}. Labels and notes are a model's read: click through before you believe one.`;}
+    $('#sub-latest').textContent=`All ${D.latest.length} posts in the newest thread, each read by Claude for one reader: mid-career, laid off, deciding at 2 AM whether a post is worth an hour. ${J.worth} are real roles that welcome experience; ${J.no_code} of those need no code. The reading cost $${J.spend_usd}. A label is a model's opinion: click through before you believe one.`;}
   function renderLatest(){const q=$('#q-latest').value.trim().toLowerCase();const f=$('#f-remote').value;
     const noise=judged&&$('#f-noise').checked,ok=judged&&$('#f-ok').checked,nocode=judged&&$('#f-nocode').checked,pay=judged&&$('#f-pay').checked,nodeg=judged&&$('#f-nodeg').checked;
     const rows=D.latest.filter(p=>(!f||p.remote===f)&&(!q||[p.company,p.role,p.location,p.head,p.note].join(' ').toLowerCase().includes(q))
@@ -200,9 +239,9 @@ fetch('data.json',{cache:'no-cache'}).then(r=>r.json()).then(D=>{
   $('#q-all').addEventListener('input',e=>{clearTimeout(t);t=setTimeout(()=>{const q=e.target.value.trim().toLowerCase();if(q.length<2){$('#all').innerHTML='';$('#n-all').textContent='';return;}
     const hits=[];for(const r of idx){if((r[1]+' '+r[2]+' '+r[3]+' '+r[4]).toLowerCase().includes(q)){hits.push(r);if(hits.length>=400)break;}}
     hits.sort((a,b)=>b[0].localeCompare(a[0]));$('#n-all').textContent=`${hits.length}${hits.length>=400?'+':''} posts`;
-    $('#all').innerHTML=hits.slice(0,200).map(r=>`<div class="post"><div class="h"><a href="https://news.ycombinator.com/item?id=${r[5]}" target="_blank" rel="noopener">${esc(r[1])}</a> <span class="m">${esc(r[0])}</span>${r[4]?`<span class="pill ${r[4]==='remote'?'remote':''}">${esc(r[4])}</span>`:''}</div><div>${esc(r[2])}${r[2]&&r[3]?' · ':''}${esc(r[3])}</div></div>`).join('');},120);});
+    $('#all').innerHTML=hits.slice(0,200).map(r=>`<div class="post"><div class="h"><a href="https://news.ycombinator.com/item?id=${r[5]}" target="_blank" rel="noopener">${esc(r[1])}</a> <span class="pill">${esc(MONTH(r[0]))}</span>${r[4]?`<span class="pill ${r[4]==='remote'?'remote':''}">${esc(r[4])}</span>`:''}</div><div class="r">${esc(r[2])}${r[2]&&r[3]?' · ':''}${esc(r[3])}</div></div>`).join('');},120);});
   // Places
-  $('#t-places tbody').innerHTML=D.years.slice().reverse().map(y=>`<tr><td>${y}</td><td>${(D.top_locations[y]||[]).map(([p,n])=>`${esc(p)} <span class="muted">${n}</span>`).join(' · ')}</td></tr>`).join('');
+  $('#t-places tbody').innerHTML=D.years.slice().reverse().map(y=>`<tr><td class="n">${y}</td><td>${(D.top_locations[y]||[]).map(([p,n])=>`${esc(p)} <span class="muted">${n}</span>`).join(' · ')}</td></tr>`).join('');
 }).catch(e=>{$('#meta').textContent='Could not load data.json: '+e;});
 </script>
 </body>
