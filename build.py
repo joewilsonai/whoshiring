@@ -120,11 +120,36 @@ def main() -> None:
     top_locations = {y: loc_year[y].most_common(8) for y in years}
 
     latest_month = months[-1]
-    latest = [
-        {"company": r["company"], "role": r["role"], "location": r["location"], "remote": r["remote"],
-         "pay_lo": r["pay_lo"], "pay_hi": r["pay_hi"], "cur": r["cur"], "head": r["head"][:200], "url": r["url"]}
-        for r in rows if r["month"] == latest_month
-    ]
+    # The judgment layer (score.py): one record per post id, if that month has been scored.
+    scores = {}
+    for p in sorted((ROOT / "data" / "scores").glob("*.jsonl")):
+        for l in p.open():
+            s = json.loads(l)
+            scores[s["id"]] = s
+    latest = []
+    for r in rows:
+        if r["month"] != latest_month:
+            continue
+        rec = {"company": r["company"], "role": r["role"], "location": r["location"], "remote": r["remote"],
+               "pay_lo": r["pay_lo"], "pay_hi": r["pay_hi"], "cur": r["cur"], "head": r["head"][:200], "url": r["url"]}
+        s = scores.get(r["id"])
+        if s:
+            rec.update({"label": s["label"], "ok": s["mid_career_ok"], "code": s["coding_required"],
+                        "deg": s["degree_required"], "sen": s["seniority"], "pays": s["pay_stated"], "note": s["note"]})
+        latest.append(rec)
+    scored = [p for p in latest if "label" in p]
+    judgment = {
+        "scored": len(scored),
+        "of": len(latest),
+        "labels": Counter(p["label"] for p in scored).most_common(),
+        "worth": sum(1 for p in scored if p["label"] == "real_role" and p["ok"]),
+        "no_code": sum(1 for p in scored if p["label"] == "real_role" and p["ok"] and not p["code"]),
+    }
+    spend = 0.0
+    sp = ROOT / "data" / "spend.jsonl"
+    if sp.exists():
+        spend = sum(json.loads(l)["usd"] for l in sp.open())
+    judgment["spend_usd"] = round(spend, 2)
     index = [
         [r["month"], (r["company"] or "")[:60], (r["role"] or "")[:80], (r["location"] or "")[:40], r["remote"] or "", r["id"]]
         for r in rows if r["company"]
@@ -145,6 +170,7 @@ def main() -> None:
         "durable": durable,
         "latest_month": latest_month,
         "latest": latest,
+        "judgment": judgment,
         "index": index,
     }
     OUT.parent.mkdir(exist_ok=True)

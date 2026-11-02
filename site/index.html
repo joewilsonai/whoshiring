@@ -36,6 +36,11 @@ input[type=search]{flex:1;min-width:220px}
 button{cursor:pointer}
 .pill{display:inline-block;font-family:var(--mono);font-size:11px;padding:1px 7px;border:1px solid var(--rule);border-radius:999px;color:var(--dim);margin-left:6px}
 .pill.remote{color:var(--ok);border-color:var(--ok)}
+.pill.good{color:var(--ok);border-color:var(--ok);font-weight:600}
+.pill.bad{color:var(--stamp);border-color:var(--stamp)}
+.post.noise{opacity:.6}
+.post .note{font-size:14px;margin:3px 0 2px;font-style:italic}
+#judge-row label{font-size:14px;display:inline-flex;align-items:center;gap:5px;padding:6px 10px;border:1px solid var(--rule);border-radius:4px;background:var(--panel);cursor:pointer}
 .post{border-left:3px solid var(--rule);padding:6px 10px;margin:6px 0;background:var(--panel)}
 .post .h{font-weight:600}
 .post .m{font-family:var(--mono);font-size:12px;color:var(--dim)}
@@ -89,7 +94,14 @@ footer{margin-top:50px;font-size:13px;color:var(--dim);border-top:1px solid var(
 
 <section id="s-latest">
   <h2 id="h-latest">This month</h2>
-  <p class="sub">The newest thread, every post, in one list you can search. Links go to HN.</p>
+  <p class="sub" id="sub-latest">The newest thread, every post, in one list you can search. Links go to HN.</p>
+  <div class="row" id="judge-row" hidden>
+    <label><input type="checkbox" id="f-noise" checked> hide the noise</label>
+    <label><input type="checkbox" id="f-ok"> 45+ welcome</label>
+    <label><input type="checkbox" id="f-nocode"> no coding required</label>
+    <label><input type="checkbox" id="f-pay"> pay stated</label>
+    <label><input type="checkbox" id="f-nodeg"> no degree required</label>
+  </div>
   <div class="row"><input type="search" id="q-latest" placeholder="Search this month: company, role, place, remote…"><select id="f-remote"><option value="">any</option><option value="remote">remote</option><option value="hybrid">hybrid</option><option value="onsite">onsite</option></select><span class="muted" id="n-latest"></span></div>
   <div id="latest"></div>
 </section>
@@ -138,9 +150,13 @@ function remoteLine(svgSel,years,values){
   years.forEach((yr,i)=>{out+=`<text class="axis" x="${x(i)}" y="${H-B+14}" text-anchor="middle">${esc(yr)}</text>`;if(values[i]!=null)out+=`<circle cx="${x(i)}" cy="${y(values[i])}" r="4" fill="#2d7a3e"><title>${yr}: ${values[i]}%</title></circle>`;});
   const pts=values.map((v,i)=>v==null?null:`${x(i)},${y(v)}`).filter(Boolean).join(' ');out+=`<polyline fill="none" stroke="#2d7a3e" stroke-width="2.5" points="${pts}"/>`;
   svg.innerHTML=out;}
+const LABEL={real_role:'real role',junior_only:'junior only',needs_phd:'needs PhD',contract_or_freelance:'contract',equity_only:'equity only',vague:'vague',recruiter_or_agency:'recruiter',not_a_job:'not a job'};
+const NOISE=new Set(['vague','recruiter_or_agency','not_a_job']);
 function postHTML(p){const pay=p.pay_lo?`${p.cur||'$'}${Math.round(p.pay_lo/1000)}k${p.pay_hi?'–'+Math.round(p.pay_hi/1000)+'k':''}`:'';
-  return `<div class="post"><div class="h"><a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.company||'(unnamed)')}</a>${p.remote?`<span class="pill ${p.remote==='remote'?'remote':''}">${esc(p.remote)}</span>`:''}${pay?`<span class="pill">${esc(pay)}</span>`:''}</div><div>${esc(p.role||'')}${p.role&&p.location?' · ':''}${esc(p.location||'')}</div><div class="m">${esc(p.head)}</div></div>`;}
-fetch('data.json').then(r=>r.json()).then(D=>{
+  const lab=p.label?`<span class="pill ${p.label==='real_role'?'good':NOISE.has(p.label)?'bad':''}">${esc(LABEL[p.label]||p.label)}</span>`:'';
+  const flags=p.label?[p.ok?'45+ ok':'',p.code===false?'no code':'',p.sen&&p.sen!=='any'?p.sen:''].filter(Boolean).map(f=>`<span class="pill">${esc(f)}</span>`).join(''):'';
+  return `<div class="post ${p.label&&NOISE.has(p.label)?'noise':''}"><div class="h"><a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.company||'(unnamed)')}</a>${lab}${p.remote?`<span class="pill ${p.remote==='remote'?'remote':''}">${esc(p.remote)}</span>`:''}${pay?`<span class="pill">${esc(pay)}</span>`:''}${flags}</div><div>${esc(p.role||'')}${p.role&&p.location?' · ':''}${esc(p.location||'')}</div>${p.note?`<div class="note">${esc(p.note)}</div>`:''}<div class="m">${esc(p.head)}</div></div>`;}
+fetch('data.json',{cache:'no-cache'}).then(r=>r.json()).then(D=>{
   $('#meta').textContent=`${D.threads} threads · ${D.posts.toLocaleString()} job posts · ${D.months[0]} to ${D.months[D.months.length-1]} · built ${D.built}`;
   const lastY=D.years[D.years.length-1];const yi=D.years.length-1;
   const pm=D.per_month;const lastMonthN=pm[pm.length-1];const peak=Math.max(...pm);const peakM=D.months[pm.indexOf(peak)];
@@ -151,6 +167,7 @@ fetch('data.json').then(r=>r.json()).then(D=>{
     ['Remote now',(D.remote_share[yi]??'—')+'%',`of posts in ${lastY} that say where`],
     ['Stated pay',fmtK(D.pay_median[yi]),`median posted midpoint, ${lastY} (${D.pay_n[yi]} posts)`],
     ['Durable companies',D.durable.length,'posted in 3+ different years'],
+    ...(D.judgment&&D.judgment.scored?[['Worth your hour',D.judgment.worth,`real roles open to experience, ${D.latest_month} (of ${D.judgment.scored} read)`]]:[]),
   ].map(([k,v,m])=>`<div class="card"><span class="k">${esc(k)}</span><span class="v">${esc(v)}</span><span class="m">${esc(m)}</span></div>`).join('');
   bars('#c-months',D.months,D.per_month,{tickEvery:12});
   remoteLine('#c-remote',D.years,D.remote_share);
@@ -169,10 +186,15 @@ fetch('data.json').then(r=>r.json()).then(D=>{
   renderDurable();
   // Latest month
   $('#h-latest').textContent=`This month: ${D.latest_month} (${D.latest.length} posts)`;
+  const J=D.judgment||{};const judged=J.scored>0;
+  if(judged){$('#judge-row').hidden=false;
+    $('#sub-latest').textContent=`Every post in the newest thread, read by Claude for one reader: mid-career, 45+, laid off, deciding at 2 AM whether a post is worth an hour. ${J.scored} of ${J.of} posts judged; ${J.worth} are real roles that welcome experience; ${J.no_code} of those need no code. The judging cost $${J.spend_usd}. Labels and notes are a model's read: click through before you believe one.`;}
   function renderLatest(){const q=$('#q-latest').value.trim().toLowerCase();const f=$('#f-remote').value;
-    const rows=D.latest.filter(p=>(!f||p.remote===f)&&(!q||[p.company,p.role,p.location,p.head].join(' ').toLowerCase().includes(q)));
+    const noise=judged&&$('#f-noise').checked,ok=judged&&$('#f-ok').checked,nocode=judged&&$('#f-nocode').checked,pay=judged&&$('#f-pay').checked,nodeg=judged&&$('#f-nodeg').checked;
+    const rows=D.latest.filter(p=>(!f||p.remote===f)&&(!q||[p.company,p.role,p.location,p.head,p.note].join(' ').toLowerCase().includes(q))
+      &&!(noise&&p.label&&NOISE.has(p.label))&&!(ok&&!(p.label==='real_role'&&p.ok))&&!(nocode&&p.code!==false)&&!(pay&&!(p.pays||p.pay_lo))&&!(nodeg&&p.deg===true));
     $('#n-latest').textContent=`${rows.length} posts`;$('#latest').innerHTML=rows.slice(0,300).map(postHTML).join('')+(rows.length>300?`<p class="muted">…and ${rows.length-300} more; narrow the search.</p>`:'');}
-  $('#q-latest').addEventListener('input',renderLatest);$('#f-remote').addEventListener('change',renderLatest);renderLatest();
+  ['q-latest','f-remote','f-noise','f-ok','f-nocode','f-pay','f-nodeg'].forEach(id=>{const el=$('#'+id);el.addEventListener(id==='q-latest'?'input':'change',renderLatest);});renderLatest();
   // Search everything
   const idx=D.index;let t;
   $('#q-all').addEventListener('input',e=>{clearTimeout(t);t=setTimeout(()=>{const q=e.target.value.trim().toLowerCase();if(q.length<2){$('#all').innerHTML='';$('#n-all').textContent='';return;}
