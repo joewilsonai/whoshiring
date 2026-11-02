@@ -4,14 +4,14 @@
 
 <p align="center">
 <b>184 threads · 93,193 job posts · April 2011 to October 2026 · one static page · $0.85 of model calls</b><br>
-<a href="http://138.197.66.145/">Open the page</a> · built in one sitting on November 1, 2026 as <b>Bet №1</b> of <a href="https://aibuildersclub.ai">Joe Wilson Builds</a>
+<a href="https://whoshiring.app">Open the page</a> · built in one sitting on November 1, 2026 as <b>Bet №1</b> of <a href="https://aibuildersclub.ai">Joe Wilson Builds</a>
 </p>
 
 | | |
 |---|---|
 | **CLAIM** | In one sitting, Claude turns fifteen years of HN hiring threads into a page a laid-off 45-year-old can actually use. |
 | **CLOCK** | 9:12 PM start → page live 9:25 → every October post judged by 10:15. |
-| **COST** | $0.85 in model calls, logged per call. Plus a $9.99 domain. |
+| **COST** | $0.85 in model calls, logged per call. Plus a $10.19 domain. |
 | **VERDICT** | Confirmed on the six goals below. Whether it beats a job board at 2 AM is yours. |
 
 Every monthly **"Ask HN: Who is hiring?"** thread since April 2011, sifted into one page: which companies
@@ -19,7 +19,7 @@ keep hiring, what they say they pay, how remote rose and slipped, which roles ro
 month's posts read one by one for a specific reader: mid-career, laid off, deciding at 2 AM whether a post
 is worth an hour.
 
-Live: **http://138.197.66.145/** (domain pending). No feed, no login, no recommendations. Every number
+Live: **https://whoshiring.app**. No feed, no login, no recommendations. Every number
 links back to its Hacker News post, so when something looks wrong the source is one click away.
 
 This is **Bet №1** on [Joe Wilson Builds](https://aibuildersclub.ai). The claim: in one sitting, Claude
@@ -87,7 +87,9 @@ python3 build.py
 rsync -az site/ user@host:/var/www/whoshiring/
 ```
 
-Monthly: `python3 fetch.py --refresh && python3 parse.py && python3 score.py && python3 build.py`.
+Monthly: `WHOSHIRING_SSH=user@host ANTHROPIC_API_KEY=... python3 refresh.py` pulls the new thread, judges its
+posts, rebuilds and ships. It stops before shipping if the page would shrink or under 90% of the newest
+month got judged, so a bad run leaves the live page alone.
 
 Parsing is heuristic on purpose. The first line of a post is read by the convention HN posters follow;
 anything the parser only guessed at is flagged and excluded from the company list. Labels on this month's

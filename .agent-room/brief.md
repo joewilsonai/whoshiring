@@ -1,7 +1,7 @@
 # Who's Hiring, 15 Years — the brief
 
 **The Bet (Joe Wilson Builds, Bet #1):** CLAIM: Claude builds a working 15-year hiring atlas from Hacker
-News's monthly "Who is hiring?" threads in one sitting. CLOCK: 48 hours from 2026-11-01 21:12 CST (first page live on the droplet 2026-11-01 21:25 CST). COST:
+News's monthly "Who is hiring?" threads in one sitting. CLOCK: one sitting, 2026-11-01 21:12 CST start, page live 21:25, every October post judged by 22:15. COST:
 the API bill, kept to the cent (Algolia HN API is free; the box is Joe's existing NYC droplet; the domain
 is the one purchase). VERDICT: a URL that is strictly more useful to a laid-off 48-year-old at 2 AM than a
 job board.
