@@ -13,6 +13,7 @@ Env: ANTHROPIC_API_KEY for score.py, WHOSHIRING_SSH=user@host to ship, WHOSHIRIN
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import subprocess
@@ -43,6 +44,15 @@ def live_data() -> dict:
     req = urllib.request.Request(f"{LIVE}/data.json", headers={"User-Agent": UA})
     with urllib.request.urlopen(req, timeout=30) as resp:
         return json.load(resp)
+
+
+def live_matches_build() -> bool:
+    for name in ("index.html", "data.json"):
+        req = urllib.request.Request(f"{LIVE}/{name}", headers={"User-Agent": UA})
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            if hashlib.sha256(resp.read()).digest() != hashlib.sha256((SITE / name).read_bytes()).digest():
+                return False
+    return True
 
 
 def problems(new: dict, live: dict) -> list[str]:
@@ -102,15 +112,16 @@ def main() -> int:
         return 0
 
     try:
-        run("rsync", "-az", "site/", f"{target}:/var/www/whoshiring/")
-        shipped = live_data()
+        # --delay-updates swaps the files in together at the end, so a dropped transfer changes nothing.
+        run("rsync", "-az", "--delay-updates", "site/", f"{target}:/var/www/whoshiring/")
+        matches = live_matches_build()
     except (subprocess.CalledProcessError, OSError, ValueError) as exc:
         print(f"FAILED while shipping: {exc}", file=sys.stderr)
         return 1
-    if shipped.get("latest_month") != new.get("latest_month") or shipped.get("posts") != new.get("posts"):
+    if not matches:
         print("FAILED: the live page doesn't match the build after shipping", file=sys.stderr)
         return 1
-    print(f"shipped: {LIVE} now shows {shipped.get('posts')} posts through {shipped.get('latest_month')}")
+    print(f"shipped: {LIVE} now shows {new.get('posts')} posts through {new.get('latest_month')}")
     return 0
 
 
