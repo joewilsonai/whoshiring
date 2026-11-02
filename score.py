@@ -92,7 +92,9 @@ def parse_json(out: str) -> dict | None:
     if i < 0:
         return None
     s = s[i:]
-    for cand in (s, re.sub(r',\s*"?\s*}\s*$', "}", s), s.rstrip() + '"}', s.rstrip() + "}"):
+    j = s.rfind("}")
+    bounded = s[: j + 1] if j > 0 else s  # drops a trailing ``` fence or prose
+    for cand in (bounded, s, re.sub(r',\s*"?\s*}\s*$', "}", bounded), s.rstrip() + '"}', s.rstrip() + "}"):
         try:
             rec = json.loads(cand)
             if isinstance(rec, dict):
