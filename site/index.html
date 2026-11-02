@@ -235,8 +235,11 @@ fetch('data.json',{cache:'no-cache'}).then(r=>r.json()).then(D=>{
     $('#n-latest').textContent=`${rows.length} posts`;$('#latest').innerHTML=rows.slice(0,300).map(postHTML).join('')+(rows.length>300?`<p class="muted">…and ${rows.length-300} more; narrow the search.</p>`:'');}
   ['q-latest','f-remote','f-noise','f-ok','f-nocode','f-pay','f-nodeg'].forEach(id=>{const el=$('#'+id);el.addEventListener(id==='q-latest'?'input':'change',renderLatest);});renderLatest();
   // Search everything
-  const idx=D.index;let t;
-  $('#q-all').addEventListener('input',e=>{clearTimeout(t);t=setTimeout(()=>{const q=e.target.value.trim().toLowerCase();if(q.length<2){$('#all').innerHTML='';$('#n-all').textContent='';return;}
+  let idx=null,idxLoading=null,t;
+  const loadIdx=()=>idxLoading||(idxLoading=fetch('index.json',{cache:'no-cache'}).then(r=>r.json()).then(d=>{idx=d;}));
+  $('#q-all').addEventListener('focus',loadIdx,{once:true});
+  $('#q-all').addEventListener('input',e=>{clearTimeout(t);t=setTimeout(async()=>{const q=e.target.value.trim().toLowerCase();if(q.length<2){$('#all').innerHTML='';$('#n-all').textContent='';return;}
+    if(!idx){$('#n-all').textContent=`loading ${(D.index_rows||0).toLocaleString()} posts…`;await loadIdx();if(e.target.value.trim().toLowerCase()!==q)return;}
     const hits=[];for(const r of idx){if((r[1]+' '+r[2]+' '+r[3]+' '+r[4]).toLowerCase().includes(q)){hits.push(r);if(hits.length>=400)break;}}
     hits.sort((a,b)=>b[0].localeCompare(a[0]));$('#n-all').textContent=`${hits.length}${hits.length>=400?'+':''} posts`;
     $('#all').innerHTML=hits.slice(0,200).map(r=>`<div class="post"><div class="h"><a href="https://news.ycombinator.com/item?id=${r[5]}" target="_blank" rel="noopener">${esc(r[1])}</a> <span class="pill">${esc(MONTH(r[0]))}</span>${r[4]?`<span class="pill ${r[4]==='remote'?'remote':''}">${esc(r[4])}</span>`:''}</div><div class="r">${esc(r[2])}${r[2]&&r[3]?' · ':''}${esc(r[3])}</div></div>`).join('');},120);});

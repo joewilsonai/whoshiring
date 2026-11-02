@@ -171,11 +171,13 @@ def main() -> None:
         "latest_month": latest_month,
         "latest": latest,
         "judgment": judgment,
-        "index": index,
+        "index_rows": len(index),
     }
     OUT.parent.mkdir(exist_ok=True)
     OUT.write_text(json.dumps(out, separators=(",", ":")))
-    print(f"{len(rows)} posts, {len(months)} months, {len(durable)} durable companies, {len(index)} indexed → {OUT} ({OUT.stat().st_size // 1024} KB)")
+    IDX = OUT.parent / "index.json"  # the all-years search index, loaded by the page only when someone searches
+    IDX.write_text(json.dumps(index, separators=(",", ":")))
+    print(f"{len(rows)} posts, {len(months)} months, {len(durable)} durable companies → {OUT} ({OUT.stat().st_size // 1024} KB); {len(index)} indexed → {IDX} ({IDX.stat().st_size // 1024} KB)")
 
 
 if __name__ == "__main__":
