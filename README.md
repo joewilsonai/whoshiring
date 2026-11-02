@@ -1,5 +1,19 @@
 # Who's Hiring, 15 Years
 
+<p align="center"><img src="docs/hero.png" width="760" alt="The page: fifteen years of Hacker News hiring threads on one screen"></p>
+
+<p align="center">
+<b>184 threads · 93,193 job posts · April 2011 to October 2026 · one static page · $0.85 of model calls</b><br>
+<a href="http://138.197.66.145/">Open the page</a> · built in one sitting on November 1, 2026 as <b>Bet №1</b> of <a href="https://aibuildersclub.ai">Joe Wilson Builds</a>
+</p>
+
+| | |
+|---|---|
+| **CLAIM** | In one sitting, Claude turns fifteen years of HN hiring threads into a page a laid-off 45-year-old can actually use. |
+| **CLOCK** | 9:12 PM start → page live 9:25 → every October post judged by 10:15. |
+| **COST** | $0.85 in model calls, logged per call. Plus a $9.99 domain. |
+| **VERDICT** | Confirmed on the six goals below. Whether it beats a job board at 2 AM is yours. |
+
 Every monthly **"Ask HN: Who is hiring?"** thread since April 2011, sifted into one page: which companies
 keep hiring, what they say they pay, how remote rose and slipped, which roles rose and fell, and this
 month's posts read one by one for a specific reader: mid-career, laid off, deciding at 2 AM whether a post
@@ -25,6 +39,12 @@ beats a job board at 2 AM is the viewer's call.
 
 ## What the page shows (184 threads, 93,193 posts, Apr 2011 to Oct 2026)
 
+<img src="docs/months.png" width="760" alt="Posts per month, 2011 to 2026: a climb to the 2018 peak, a 2021 echo, then a cliff">
+
+<img src="docs/roles.png" width="760" alt="Role families over time: AI/ML rises from 5% to 20% while frontend falls">
+
+<img src="docs/durable.png" width="760" alt="The durable companies: Datadog, Apple, Sourcegraph, Scribd, MongoDB, DuckDuckGo">
+
 - **Posts per month.** The peak was May 2018 (971). 2021 came close. 2026 is the weakest year since 2012;
   the last four months are the lowest run since 2013.
 - **Remote by year.** From a quarter of posts in 2016 to 92% in 2022, slipping every year since to 76%.
@@ -34,6 +54,8 @@ beats a job board at 2 AM is the viewer's call.
   frontend fell from 15% to under 5% and mobile from 10% to 2%.
 - **The durable ones.** 600 companies that posted in three or more different years (Datadog 14 years,
   Apple, Sourcegraph, Scribd, MongoDB, DuckDuckGo at the top), each with its latest post.
+<img src="docs/post1.png" width="760" alt="A judged post: label, 45+ ok, pay, and a one-line note for the reader">
+
 - **This month, judged.** Every post in the newest thread labeled by a model: real role, junior only,
   needs PhD, contract, equity only, vague, recruiter, not a job; plus whether a 45+ candidate is plausibly
   wanted, whether coding is required, whether a degree is stated, seniority, pay stated, and a one-line
