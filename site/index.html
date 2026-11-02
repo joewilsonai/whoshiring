@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Who's Hiring, 15 Years</title>
+<meta name="description" content="Every Hacker News 'Who is hiring?' thread since 2011, sifted into one page: the companies that keep hiring, what they pay, how remote moved, which roles rose and fell.">
+<style>
+:root{--ink:#111;--paper:#faf8f2;--dim:#5a5750;--rule:#d9d4c7;--panel:#fff;--stamp:#c4302b;--ok:#2d7a3e;--mono:ui-monospace,SFMono-Regular,Menlo,monospace;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+@media (prefers-color-scheme:dark){:root{--ink:#eee9dc;--paper:#14130f;--dim:#a39e92;--rule:#33302a;--panel:#1d1b16}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.45}
+main{max-width:1100px;margin:0 auto;padding:28px 16px 80px}
+header h1{font-size:40px;margin:0 0 4px;letter-spacing:-.02em}
+header .lead{font-size:18px;color:var(--dim);margin:0 0 6px;max-width:760px}
+header .meta{font-family:var(--mono);font-size:12px;color:var(--dim)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:22px 0}
+.card{background:var(--panel);border:1px solid var(--rule);padding:12px 14px}
+.card .k{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.card .v{display:block;font-size:28px;font-weight:700;margin:2px 0}
+.card .m{font-size:12px;color:var(--dim)}
+section{margin-top:34px}
+h2{font-size:24px;margin:0 0 6px;letter-spacing:-.01em}
+.sub{color:var(--dim);margin:0 0 12px;font-size:14px}
+.chart{background:var(--panel);border:1px solid var(--rule);padding:10px}
+svg{width:100%;height:auto;display:block}
+.axis{font-family:var(--mono);font-size:10px;fill:var(--dim)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);cursor:pointer;user-select:none}
+td.n{text-align:right;font-family:var(--mono)}
+a{color:inherit}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:8px 0 12px}
+input,select,button{font:inherit;font-size:14px;padding:8px 10px;border:1px solid var(--rule);background:var(--panel);color:var(--ink);border-radius:4px}
+input[type=search]{flex:1;min-width:220px}
+button{cursor:pointer}
+.pill{display:inline-block;font-family:var(--mono);font-size:11px;padding:1px 7px;border:1px solid var(--rule);border-radius:999px;color:var(--dim);margin-left:6px}
+.pill.remote{color:var(--ok);border-color:var(--ok)}
+.post{border-left:3px solid var(--rule);padding:6px 10px;margin:6px 0;background:var(--panel)}
+.post .h{font-weight:600}
+.post .m{font-family:var(--mono);font-size:12px;color:var(--dim)}
+.muted{color:var(--dim)}
+.legend{display:flex;flex-wrap:wrap;gap:10px;font-size:12px;margin-top:6px}
+.legend span i{display:inline-block;width:10px;height:10px;margin-right:4px;vertical-align:middle}
+footer{margin-top:50px;font-size:13px;color:var(--dim);border-top:1px solid var(--rule);padding-top:14px}
+@media (max-width:600px){header h1{font-size:30px}.card .v{font-size:22px}th,td{padding:6px 5px;font-size:13px}}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <h1>Who's Hiring, 15 Years</h1>
+  <p class="lead">Every monthly <a href="https://news.ycombinator.com/submitted?id=whoishiring">“Ask HN: Who is hiring?”</a> thread since 2011, sifted into one page. No feed, no login, no recommendations. The companies that keep hiring, what they say they pay, how remote moved, which roles rose and which fell.</p>
+  <div class="meta" id="meta">loading…</div>
+</header>
+
+<div class="grid" id="cards"></div>
+
+<section id="s-months">
+  <h2>Posts per month</h2>
+  <p class="sub">One bar per thread. The market, as the people in it saw it: who was hiring that month, how many said so.</p>
+  <div class="chart"><svg id="c-months" viewBox="0 0 1000 220"></svg></div>
+</section>
+
+<section id="s-remote">
+  <h2>Remote, by year</h2>
+  <p class="sub">Share of posts that say REMOTE or hybrid, among posts that say anything about where you sit.</p>
+  <div class="chart"><svg id="c-remote" viewBox="0 0 1000 220"></svg></div>
+</section>
+
+<section id="s-pay">
+  <h2>Stated pay, by year</h2>
+  <p class="sub">Median of the posted USD range midpoints, among posts that state a number. Few did before 2021; the count is under each year. Not a salary survey: it's what hirers chose to say out loud.</p>
+  <div class="chart"><svg id="c-pay" viewBox="0 0 1000 240"></svg></div>
+</section>
+
+<section id="s-roles">
+  <h2>Roles over time</h2>
+  <p class="sub">Share of posts whose first line names a role family. Watch AI / ML.</p>
+  <div class="chart"><svg id="c-roles" viewBox="0 0 1000 260"></svg><div class="legend" id="l-roles"></div></div>
+</section>
+
+<section id="s-durable">
+  <h2>The durable ones</h2>
+  <p class="sub">Companies that posted in three or more different years. Sorted by years active, then months. Click a column to sort; search to filter. Every row links to the latest post on HN.</p>
+  <div class="row"><input type="search" id="q-durable" placeholder="Filter companies, roles, places…"><span class="muted" id="n-durable"></span></div>
+  <div style="overflow:auto"><table id="t-durable"><thead><tr><th data-k="name">Company</th><th data-k="years" class="n">Years</th><th data-k="months" class="n">Months</th><th data-k="first">First</th><th data-k="last">Last</th><th>Roles</th><th>Where</th><th>Latest post</th></tr></thead><tbody></tbody></table></div>
+</section>
+
+<section id="s-latest">
+  <h2 id="h-latest">This month</h2>
+  <p class="sub">The newest thread, every post, in one list you can search. Links go to HN.</p>
+  <div class="row"><input type="search" id="q-latest" placeholder="Search this month: company, role, place, remote…"><select id="f-remote"><option value="">any</option><option value="remote">remote</option><option value="hybrid">hybrid</option><option value="onsite">onsite</option></select><span class="muted" id="n-latest"></span></div>
+  <div id="latest"></div>
+</section>
+
+<section id="s-search">
+  <h2>Search all 15 years</h2>
+  <p class="sub">Every post with a company name. Type a company to see every month it hired; type a city or a role to see who did.</p>
+  <div class="row"><input type="search" id="q-all" placeholder="e.g. Stripe, Pittsburgh, SRE…"><span class="muted" id="n-all"></span></div>
+  <div id="all"></div>
+</section>
+
+<section id="s-places">
+  <h2>Where the jobs were</h2>
+  <p class="sub">Top stated locations by year.</p>
+  <div style="overflow:auto"><table id="t-places"><thead><tr><th>Year</th><th>Places</th></tr></thead><tbody></tbody></table></div>
+</section>
+
+<footer>
+  <p>Built by <a href="https://aibuildersclub.ai">Joe Wilson</a> with Claude, in one sitting, as a Bet. Data: the public Hacker News API (Algolia), threads by <a href="https://news.ycombinator.com/user?id=whoishiring">whoishiring</a>. Parsing is heuristic and every record links to its source; when a number looks wrong, the post is one click away. <a href="data.json">The data as one file</a>: point your own Claude at it.</p>
+</footer>
+</main>
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmtK=n=>n==null?'—':(n>=1000?'$'+Math.round(n/1000)+'k':'$'+n);
+function bars(svgSel,labels,values,{color='#c4302b',yfmt=v=>v,tickEvery=1,height=220,top=16}={}){
+  const svg=$(svgSel);const W=1000,H=height,L=44,R=8,B=28;
+  const vals=values.map(v=>v==null?0:v);const max=Math.max(1,...vals);
+  const n=labels.length;const bw=(W-L-R)/n;let out='';
+  for(let i=0;i<=4;i++){const y=top+(H-top-B)*(1-i/4);const v=max*i/4;out+=`<line x1="${L}" x2="${W-R}" y1="${y}" y2="${y}" stroke="currentColor" stroke-opacity=".12"/><text class="axis" x="${L-4}" y="${y+3}" text-anchor="end">${esc(yfmt(Math.round(v)))}</text>`;}
+  labels.forEach((lab,i)=>{const v=vals[i];const h=(H-top-B)*(v/max);const x=L+i*bw;const y=H-B-h;
+    out+=`<rect x="${x+0.5}" y="${y}" width="${Math.max(1,bw-1)}" height="${h}" fill="${color}" opacity="${values[i]==null?0.15:0.85}"><title>${esc(lab)}: ${esc(values[i]==null?'no data':yfmt(values[i]))}</title></rect>`;
+    if(i%tickEvery===0)out+=`<text class="axis" x="${x+bw/2}" y="${H-B+14}" text-anchor="middle">${esc(lab)}</text>`;});
+  svg.innerHTML=out;}
+function lines(svgSel,years,series,colors){
+  const svg=$(svgSel);const W=1000,H=260,L=44,R=8,B=28,T=12;let max=1;
+  for(const k in series)for(const v of series[k])if(v!=null&&v>max)max=v;
+  const x=i=>L+(W-L-R)*(i/(years.length-1));const y=v=>T+(H-T-B)*(1-v/max);let out='';
+  for(let i=0;i<=4;i++){const yy=T+(H-T-B)*(1-i/4);out+=`<line x1="${L}" x2="${W-R}" y1="${yy}" y2="${yy}" stroke="currentColor" stroke-opacity=".12"/><text class="axis" x="${L-4}" y="${yy+3}" text-anchor="end">${Math.round(max*i/4)}%</text>`;}
+  years.forEach((yr,i)=>{out+=`<text class="axis" x="${x(i)}" y="${H-B+14}" text-anchor="middle">${esc(yr)}</text>`;});
+  let ci=0;for(const k in series){const pts=series[k].map((v,i)=>v==null?null:`${x(i)},${y(v)}`).filter(Boolean).join(' ');out+=`<polyline fill="none" stroke="${colors[ci%colors.length]}" stroke-width="2.5" points="${pts}"><title>${esc(k)}</title></polyline>`;ci++;}
+  svg.innerHTML=out;}
+function remoteLine(svgSel,years,values){
+  const svg=$(svgSel);const W=1000,H=220,L=44,R=8,B=28,T=12;const x=i=>L+(W-L-R)*(i/(years.length-1));const y=v=>T+(H-T-B)*(1-v/100);let out='';
+  for(let i=0;i<=4;i++){const yy=T+(H-T-B)*(1-i/4);out+=`<line x1="${L}" x2="${W-R}" y1="${yy}" y2="${yy}" stroke="currentColor" stroke-opacity=".12"/><text class="axis" x="${L-4}" y="${yy+3}" text-anchor="end">${i*25}%</text>`;}
+  years.forEach((yr,i)=>{out+=`<text class="axis" x="${x(i)}" y="${H-B+14}" text-anchor="middle">${esc(yr)}</text>`;if(values[i]!=null)out+=`<circle cx="${x(i)}" cy="${y(values[i])}" r="4" fill="#2d7a3e"><title>${yr}: ${values[i]}%</title></circle>`;});
+  const pts=values.map((v,i)=>v==null?null:`${x(i)},${y(v)}`).filter(Boolean).join(' ');out+=`<polyline fill="none" stroke="#2d7a3e" stroke-width="2.5" points="${pts}"/>`;
+  svg.innerHTML=out;}
+function postHTML(p){const pay=p.pay_lo?`${p.cur||'$'}${Math.round(p.pay_lo/1000)}k${p.pay_hi?'–'+Math.round(p.pay_hi/1000)+'k':''}`:'';
+  return `<div class="post"><div class="h"><a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.company||'(unnamed)')}</a>${p.remote?`<span class="pill ${p.remote==='remote'?'remote':''}">${esc(p.remote)}</span>`:''}${pay?`<span class="pill">${esc(pay)}</span>`:''}</div><div>${esc(p.role||'')}${p.role&&p.location?' · ':''}${esc(p.location||'')}</div><div class="m">${esc(p.head)}</div></div>`;}
+fetch('data.json').then(r=>r.json()).then(D=>{
+  $('#meta').textContent=`${D.threads} threads · ${D.posts.toLocaleString()} job posts · ${D.months[0]} to ${D.months[D.months.length-1]} · built ${D.built}`;
+  const lastY=D.years[D.years.length-1];const yi=D.years.length-1;
+  const pm=D.per_month;const lastMonthN=pm[pm.length-1];const peak=Math.max(...pm);const peakM=D.months[pm.indexOf(peak)];
+  $('#cards').innerHTML=[
+    ['Job posts','' + D.posts.toLocaleString(),`across ${D.threads} monthly threads`],
+    ['Busiest month',peak.toLocaleString(),peakM],
+    ['Last month',lastMonthN.toLocaleString(),D.latest_month],
+    ['Remote now',(D.remote_share[yi]??'—')+'%',`of posts in ${lastY} that say where`],
+    ['Stated pay',fmtK(D.pay_median[yi]),`median posted midpoint, ${lastY} (${D.pay_n[yi]} posts)`],
+    ['Durable companies',D.durable.length,'posted in 3+ different years'],
+  ].map(([k,v,m])=>`<div class="card"><span class="k">${esc(k)}</span><span class="v">${esc(v)}</span><span class="m">${esc(m)}</span></div>`).join('');
+  bars('#c-months',D.months,D.per_month,{tickEvery:12});
+  remoteLine('#c-remote',D.years,D.remote_share);
+  bars('#c-pay',D.years,D.pay_median,{color:'#2b5fc4',yfmt:fmtK,height:240});
+  const cols=['#c4302b','#2b5fc4','#2d7a3e','#b8860b','#7b3fa0','#0e8a8a','#d2691e','#555','#9c27b0','#1e88e5','#43a047','#8d6e63'];
+  lines('#c-roles',D.years,D.families,cols);
+  $('#l-roles').innerHTML=Object.keys(D.families).map((k,i)=>`<span><i style="background:${cols[i%cols.length]}"></i>${esc(k)}</span>`).join('');
+  // Durable table
+  let sortK='years',sortDir=-1,q='';
+  function renderDurable(){const rows=D.durable.filter(c=>!q||[c.name,...(c.roles||[]),...(c.locations||[])].join(' ').toLowerCase().includes(q));
+    rows.sort((a,b)=>{const av=a[sortK],bv=b[sortK];return (av>bv?1:av<bv?-1:0)*sortDir;});
+    $('#n-durable').textContent=`${rows.length} companies`;
+    $('#t-durable tbody').innerHTML=rows.slice(0,400).map(c=>`<tr><td><strong>${esc(c.name)}</strong>${c.remote==='remote'?'<span class="pill remote">remote</span>':''}</td><td class="n">${c.years}</td><td class="n">${c.months}</td><td>${esc(c.first)}</td><td>${esc(c.last)}</td><td>${esc((c.roles||[]).join(' · '))}</td><td>${esc((c.locations||[]).join(' · '))}</td><td>${c.latest?`<a href="${esc(c.latest.url)}" target="_blank" rel="noopener">${esc(c.latest.month)}</a>`:''}</td></tr>`).join('');}
+  document.querySelectorAll('#t-durable th[data-k]').forEach(th=>th.addEventListener('click',()=>{const k=th.dataset.k;if(sortK===k)sortDir*=-1;else{sortK=k;sortDir=(k==='name'||k==='first'||k==='last')?1:-1;}renderDurable();}));
+  $('#q-durable').addEventListener('input',e=>{q=e.target.value.trim().toLowerCase();renderDurable();});
+  renderDurable();
+  // Latest month
+  $('#h-latest').textContent=`This month: ${D.latest_month} (${D.latest.length} posts)`;
+  function renderLatest(){const q=$('#q-latest').value.trim().toLowerCase();const f=$('#f-remote').value;
+    const rows=D.latest.filter(p=>(!f||p.remote===f)&&(!q||[p.company,p.role,p.location,p.head].join(' ').toLowerCase().includes(q)));
+    $('#n-latest').textContent=`${rows.length} posts`;$('#latest').innerHTML=rows.slice(0,300).map(postHTML).join('')+(rows.length>300?`<p class="muted">…and ${rows.length-300} more; narrow the search.</p>`:'');}
+  $('#q-latest').addEventListener('input',renderLatest);$('#f-remote').addEventListener('change',renderLatest);renderLatest();
+  // Search everything
+  const idx=D.index;let t;
+  $('#q-all').addEventListener('input',e=>{clearTimeout(t);t=setTimeout(()=>{const q=e.target.value.trim().toLowerCase();if(q.length<2){$('#all').innerHTML='';$('#n-all').textContent='';return;}
+    const hits=[];for(const r of idx){if((r[1]+' '+r[2]+' '+r[3]+' '+r[4]).toLowerCase().includes(q)){hits.push(r);if(hits.length>=400)break;}}
+    hits.sort((a,b)=>b[0].localeCompare(a[0]));$('#n-all').textContent=`${hits.length}${hits.length>=400?'+':''} posts`;
+    $('#all').innerHTML=hits.slice(0,200).map(r=>`<div class="post"><div class="h"><a href="https://news.ycombinator.com/item?id=${r[5]}" target="_blank" rel="noopener">${esc(r[1])}</a> <span class="m">${esc(r[0])}</span>${r[4]?`<span class="pill ${r[4]==='remote'?'remote':''}">${esc(r[4])}</span>`:''}</div><div>${esc(r[2])}${r[2]&&r[3]?' · ':''}${esc(r[3])}</div></div>`).join('');},120);});
+  // Places
+  $('#t-places tbody').innerHTML=D.years.slice().reverse().map(y=>`<tr><td>${y}</td><td>${(D.top_locations[y]||[]).map(([p,n])=>`${esc(p)} <span class="muted">${n}</span>`).join(' · ')}</td></tr>`).join('');
+}).catch(e=>{$('#meta').textContent='Could not load data.json: '+e;});
+</script>
+</body>
+</html>

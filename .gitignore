@@ -14,3 +14,6 @@ venv/
 # Claude Code personal/local (keep out of git)
 CLAUDE.local.md
 .claude/settings.local.json
+data/raw/
+*.pyc
+__pycache__/
