@@ -1,0 +1,16 @@
+node_modules/
+.next/
+.vercel/
+dist/
+build/
+*.log
+.DS_Store
+.env
+.env.local
+__pycache__/
+*.pyc
+venv/
+.venv/
+# Claude Code personal/local (keep out of git)
+CLAUDE.local.md
+.claude/settings.local.json
