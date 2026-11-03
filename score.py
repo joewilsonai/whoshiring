@@ -7,7 +7,7 @@ Results land in data/scores/<month>.jsonl, one JSON per post id; re-running skip
 scored, so a crash or a cap costs nothing. Spend is logged per call so the Bet's COST is exact.
 
 Usage: score.py [--month 2026-10] [--workers 6] [--limit N] [--model claude-sonnet-5-5]
-Needs ANTHROPIC_API_KEY in the environment (source ~/.luna/secrets/keys.env).
+Needs ANTHROPIC_API_KEY in the environment.
 """
 from __future__ import annotations
 
